@@ -7,9 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -25,7 +23,8 @@ public class JobData {
      * Fetch list of all values from loaded data,
      * without duplicates, for a given column.
      *
-     * @param field The column to retrieve values from
+     * @param field The column to retrieve values from1
+     *
      * @return List of all of the values of the given field
      */
     public static ArrayList<String> findAll(String field) {
@@ -83,7 +82,27 @@ public class JobData {
 
         return jobs;
     }
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+        loadData();
 
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+
+            for (Map.Entry<String, String> result : row.entrySet()) {
+                if (result.getValue().toLowerCase().contains(value.toLowerCase())){
+                    jobs.add(row);
+                    break;
+
+                }
+            }
+        }
+        if (jobs.isEmpty()){
+            System.out.println("no results have been found");
+        }
+        return jobs;
+
+    }
     /**
      * Read in data from a CSV file and store it in a list
      */
